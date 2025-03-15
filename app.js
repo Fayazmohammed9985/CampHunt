@@ -90,6 +90,10 @@ passport.use(new localPassport(User.authenticate()))
 passport.serializeUser(User.serializeUser())
 passport.deserializeUser(User.deserializeUser())
 
+app.use((req, res, next) => {
+    console.log("Middleware - Current User:", req.user);
+    next();
+});
 
 app.use((req, res, next) => {
     res.locals.currentUser=req.user;
