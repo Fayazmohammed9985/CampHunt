@@ -1,0 +1,80 @@
+<% layout('layouts/boilerPlate')%>
+<h1 class="text-center">New Campground</h1>
+<div class="d-flex justify-content-center ">
+    <form action="/campgrounds" method="POST" class="container mt-3 needs-validation" novalidate enctype="multipart/form-data">
+        <div class="mb-3">
+     <label for="title" class="form-label"></label>Title
+     <input type="text" id="title" name="campground[title]" class="form-control" required>
+     <div class="invalid-feedback">
+        please Enter valid input
+       </div>
+       <div class="valid-feedback">
+        Looks good
+      </div>
+        </div>
+        <div class="mb-3">
+     <label for="location" class="form-label"></label>Location
+     <input type=" text" id="location" name="campground[location]" class="form-control" required>
+     <div class="valid-feedback">
+        Looks good
+      </div>
+      <div class="invalid-feedback">
+        please Enter valid input
+       </div>
+        </div>
+        <!-- <div class="my-3">
+        <input type="file" name="images" id="image" multiple>
+        </div> -->
+        <div class="mb-3">
+          <label for="image" class="form-label">Upload images</label>
+          <input class="form-control" type="file" name="images" id="image" multiple>
+        </div>
+    <!-- <div class="mb-3">
+        <label for="image" class="form-label"></label>Image URL
+     <input type=" text" id="image" name="campground[image]" class="form-control" required>
+     <div class="invalid-feedback">
+        please Enter URL
+       </div>
+       <div class="valid-feedback">
+        check the URL if it is valid we can generate image
+       </div>
+    </div> -->
+    <div class="mb-3">
+        <label for="price" class="form-label"></label>price
+     <input type="number" id="price" name="campground[price]" class="form-control" required>
+     <div class="valid-feedback">
+        Looks good
+      </div>
+      <div class="invalid-feedback">
+        please Enter Number
+       </div>
+    </div>
+    <div class="mb-3">
+        <label for="description" class="form-label"></label>Description
+     <textarea type=" text" id="description" name="campground[description]" class="form-control" required></textarea>
+     <div class="valid-feedback">
+        Looks good
+      </div>
+      <div class="invalid-feedback">
+        please Enter valid input
+       </div>
+    </div>
+        <button class="btn btn-success mb-3">Add Campground</button>
+    </form>
+</div>
+    <a href="/campgrounds" class="btn btn-secondary mb-3">Back to All Campgrounds</a>
+    <script>
+        'use strict'
+       const forms = document.querySelectorAll('.needs-validation')
+       Array.from(forms).forEach(form => {
+         form.addEventListener('submit', event => {
+           if (!form.checkValidity()) {
+             event.preventDefault()
+             event.stopPropagation()
+           }
+     
+           form.classList.add('was-validated')
+         }, false)
+       })
+     ()
+     </script>

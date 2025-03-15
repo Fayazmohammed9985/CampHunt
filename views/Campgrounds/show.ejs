@@ -1,0 +1,122 @@
+<% layout('layouts/boilerPlate')%>
+<link rel="stylesheet" href="/styles/stars.css">
+
+<div class="container">
+  <div class="row d-flex">
+    <div class="col-12 col-md-7">
+
+      <h1 class="text-center"><%= campground.title%></h1>
+      <h5 class="text-center"><%= campground.location%></h5>
+      
+      <div id="campgroundCarousel" class="carousel slide mb-5" data-bs-ride="carousel" data-bs-interval="3000">
+        <div class="carousel-inner">
+          <% campground.images.forEach((img, index) => { %>
+            <div class="carousel-item <%= index === 0 ? 'active' : '' %>">
+              <img class="d-block w-100" src="<%= img.url %>" alt="<%= campground.title %>">
+            </div>
+          <% }) %>
+        </div>
+        <% if(campground.images.length > 1){ %>
+        <button class="carousel-control-prev" type="button" data-bs-target="#campgroundCarousel" data-bs-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#campgroundCarousel" data-bs-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Next</span>
+        </button>
+        <% } %>
+      </div>
+
+      <h5 class="text-success mb-3">Price: ₹<%= campground.price%></h5>
+      <p class="text-muted mb-3">Author: <%= campground.author.username%></p>
+      <h6 class="mb-3"><%= campground.description %></h6>
+
+      <% if(currentUser && campground.author.equals(currentUser._id)){ %>
+      <form action="/campgrounds/<%= campground._id%>?_method=DELETE" method="POST">
+        <a class="btn btn-warning" href="/campgrounds/<%= campground._id%>/edit">
+          <i class="fa-regular fa-pen-to-square"></i> Edit
+        </a>
+        <button class="btn btn-danger">
+          <i class="fa-solid fa-trash"></i> Delete
+        </button>
+      </form>
+      <% } %>
+
+      <a class="btn btn-secondary my-3" href="/campgrounds">All Campgrounds</a>
+    </div>
+
+    <!-- Review Section -->
+    <div class="col-12 col-md-5 d-flex flex-column">
+      <div id="map" style="height: 300px; width: 95%;"></div>
+
+      <div class="border px-3 py-3 my-3">
+
+        <h4 class="my-1">Add Review</h4>
+        <form class="needs-validation" action="/campgrounds/<%= campground._id%>/reviews" method="POST" novalidate>
+          <div class="mb-1">
+            <fieldset class="starability-basic">
+              <p>Rating</p>
+
+              <input type="radio" id="no-rate" class="input-no-rate" name="review[Rating]" value="1" checked aria-label="No rating." />
+              <input type="radio" id="first-rate1" name="review[Rating]" value="1" />
+              <label for="first-rate1" title="Terrible">1 star</label>
+              <input type="radio" id="first-rate2" name="review[Rating]" value="2" />
+              <label for="first-rate2" title="Not good">2 stars</label>
+              <input type="radio" id="first-rate3" name="review[Rating]" value="3" />
+              <label for="first-rate3" title="Average">3 stars</label>
+              <input type="radio" id="first-rate4" name="review[Rating]" value="4" />
+              <label for="first-rate4" title="Very good">4 stars</label>
+              <input type="radio" id="first-rate5" name="review[Rating]" value="5" />
+              <label for="first-rate5" title="Amazing">5 stars</label>
+            </fieldset>
+          </div>
+          <div class="mb-1">
+            <label class="form-label" for="feedback">Leave your Feedback here</label>
+            <textarea class="form-control mb-1" name="review[feedback]" id="feedback" rows="3" required></textarea>
+          </div>
+          <button type="submit" class="btn btn-success py-2 my-2">Submit Review</button>
+        </form>
+      </div>
+
+      <!-- Reviews List -->
+      <div class="border px-3 py-3" style=" max-height: 400px; overflow-y: auto;">
+        <% for(let review of campground.reviews){ %>
+          <div class="border border-bottom my-3">
+            <p class="text-dark fw-bolder px-3">
+              <%= review.author ? review.author.username : "Anonymous" %>
+            </p>
+            <p class="starability-result px-3" data-rating="<%= review.Rating %>">
+              Rated: <%= review.Rating %> stars
+            </p>
+            <p class="px-3"><%= review.feedback %></p>
+            <% if(currentUser && review.author && review.author.equals(currentUser._id)){ %>
+            <form action="/campgrounds/<%= campground._id%>/reviews/<%= review._id%>?_method=DELETE" method="POST">
+              <button class="btn"><i class="fa-solid fa-trash"></i></button>
+            </form>
+            <% } %>
+          </div>
+        <% } %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  'use strict';
+  const forms = document.querySelectorAll('.needs-validation');
+  Array.from(forms).forEach(form => {
+    form.addEventListener('submit', event => {
+      if (!form.checkValidity()) {
+        event.preventDefault();
+        event.stopPropagation();
+      }
+      form.classList.add('was-validated');
+    }, false);
+  });
+</script>
+<script>
+  const maptilerApiKey = '<%- process.env.MAPTILER_API_KEY %>';
+  const campground = <%- JSON.stringify(campground) %>
+</script>
+<script src="/styles/showpageMap.js"></script>

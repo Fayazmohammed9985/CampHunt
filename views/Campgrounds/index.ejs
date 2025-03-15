@@ -1,0 +1,50 @@
+<% layout('layouts/boilerPlate')%>
+<div id="map" style="height: 300px; width: 100%;"></div>
+<div class="container border my-1">
+    <div class="row">
+        <div class="col">
+             <h1 class="text-center my-3">Campgrounds</h1>
+        </div>
+    <div class="col mt-3">
+    <form action="/campgrounds" method="GET" class="d-flex mb-4">
+        <input type="text" name="query" class="form-control me-2" placeholder="Search campgrounds..." required>
+        <button type="submit" class="btn btn-primary">Search</button>
+    </form>
+    </div>
+</div>
+</div>
+    
+    <div class="container">
+        <div class="row">
+        <% for(let campground of campgrounds){ %>
+            <div class="col-md-4 mb-5">            
+            <div class="card" style="width:20rem;">
+                <img src="<%= campground.images[0].url%>" alt="<%= campground.title%>" class="card-img-top img-fluid">
+                <div class="card-body">
+                    <h5 class="card-title"><%= campground.title%></h5>
+                    <h6 class="card-subtitle text-secondary "><%= campground.location%></h6>
+                    <p class="card-text"><%= campground.description%></p>
+                    <a href="/campgrounds/<%= campground._id %>" class="btn btn-primary">View <%= campground.title%></a>
+                </div>
+            </div>
+            </div>
+
+        <% } %>
+        </div>
+    </div>
+    
+
+    <!-- <div class="card" style="width: 18rem;">
+        <img src="..." class="card-img-top" alt="...">
+        <div class="card-body">
+          <h5 class="card-title">Card title</h5>
+          <h6 class="card-subtitle mb-2 text-body-secondary">Card subtitle</h6>
+          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+          <a href="#" class="btn btn-primary">Go somewhere</a>
+        </div>
+      </div> -->
+      <script>
+        const maptilerApiKey = '<%- process.env.MAPTILER_API_KEY %>';
+        const campgrounds = { features: <%- JSON.stringify(campgrounds) %>}   
+       </script>
+      <script src="/styles/clusterMap.js"></script>

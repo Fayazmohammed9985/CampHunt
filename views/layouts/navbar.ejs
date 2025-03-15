@@ -1,0 +1,75 @@
+<style>
+  .navbar {
+  background-color: rgba(0, 0, 0, 0.963) !important; /* Transparent black */
+  transition: background-color 0.3s ease-in-out; /* Smooth transition */
+}
+
+.navbar:hover {
+  background-color: rgba(0, 0, 0, 0.89) !important; /* Darker on hover */
+}
+</style>
+<nav class="navbar navbar-expand-md navbar-dark sticky-top">
+  <div class="container-fluid">
+      <!-- Left Side (Brand + Links) -->
+      <a class="navbar-brand text-white fs-3" href="#">CampHunt</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+          <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarNav">
+          <!-- Left-Aligned Links -->
+          <ul class="navbar-nav me-auto">
+              <li class="nav-item"><a class="nav-link active" href="/home">Home</a></li>
+              <li class="nav-item"><a class="nav-link" href="/campgrounds">Campgrounds</a></li>
+              <li class="nav-item"><a class="nav-link" href="/campgrounds/new">Add Campgrounds</a></li>
+
+          </ul>
+
+          <!-- Right-Aligned Links -->
+          <ul class="navbar-nav ms-auto">
+              <% if (!currentUser){ %>
+                  <li class="nav-item"><a class="nav-link" href="/login">Login</a></li>
+                  <li class="nav-item"><a class="nav-link" href="/register">Register</a></li>
+              <% } else { %>
+                  <li class="nav-item"><a class="nav-link" href="/logout">Logout</a></li>
+              <% } %>
+          </ul>
+      </div>
+  </div>
+</nav>
+
+
+<!-- <nav class="navbar navbar-expand-lg bg-dark navbar-dark sticky-top vw-100  text-white">
+  <div class="container-fluid">
+    <a class="navbar-brand text-white  fs-3" href="#">
+      CampHunt
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" 
+      aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon btn btn-white"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ">
+        <li class="nav-item">
+          <a class="nav-link text-white" href="/home">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-white" href="/campgrounds">All Campgrounds</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-white" href="/campgrounds/new">Add New Campground</a>
+        </li>
+      </ul>
+    </div>
+    <div class="navbar-nav">
+      <% if(!currentUser) { %>
+      <a href="/register" class="nav-link text-white">Register</a>
+      <a href="/login" class="nav-link text-white">login</a>
+      <% } else{ %>
+      <a href="/logout" class="nav-link text-white">logout</a>
+      <% } %>
+
+    </div>
+
+  </div>
+</nav> -->

@@ -1,0 +1,60 @@
+<% layout('layouts/boilerPlate') %>
+<style>
+  body {
+    height: 100vh;
+    background: linear-gradient(rgba(0, 0, 0, 0.738), rgba(0, 0, 0, 0.771)),
+      url("/styles/image6.png") no-repeat center center fixed;
+    background-size: cover;
+    
+  }
+
+  .login-card {
+    background: rgba(255, 255, 255, 0.1); /* Light transparent effect */
+    backdrop-filter: blur(10px); /* Blurred background effect */
+    -webkit-backdrop-filter: blur(10px); /* Safari support */
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    min-width: 350px;
+  }
+</style>
+
+<div class="container d-flex justify-content-center">
+  <div class="row">
+    <div class="col-md-5 col-lg-4">
+      <div class="card login-card p-4">
+        <h3 class="text-center text-white">Login</h3>
+        <form action="/login" method="POST" class="needs-validation validated-form" novalidate>
+          <div class="mb-3">
+              <label class="form-label text-white" for="username">Username or Email</label>
+              <input class="form-control" type="text" id="username" name="username" placeholder="Enter your username" required>
+              <div class="invalid-feedback">Please enter your username or email.</div>
+          </div>
+          <div class="mb-3">
+              <label class="form-label text-white" for="password">Password</label>
+              <input class="form-control" type="password" id="password" name="password" placeholder="Enter your password" required autocomplete="off">
+              <div class="invalid-feedback">Please enter your password.</div>
+          </div>
+          <button class="btn btn-primary w-100">Login</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  'use strict'
+  document.addEventListener('DOMContentLoaded', function () {
+    const forms = document.querySelectorAll('.needs-validation');
+
+    forms.forEach(form => {
+      form.addEventListener('submit', event => {
+        if (!form.checkValidity()) {
+          event.preventDefault();
+          event.stopPropagation();
+        }
+        form.classList.add('was-validated');
+      }, false);
+    });
+  });
+</script>

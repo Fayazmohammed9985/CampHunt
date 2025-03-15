@@ -1,0 +1,57 @@
+<!-- <% if (success && success.length > 0) { %>
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <%= success %>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+<% } %>
+<% if (error && error.length > 0) { %>
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <%= error %>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+<% } %> -->
+<style>
+  .flash-message {
+  font-weight: bold;
+  border-radius: 8px;
+  padding: 15px;
+}
+
+.alert-success {
+  background-color: #198754 !important; /* Bootstrap success green */
+  border: 2px solid #146c43; /* Darker green border */
+  color: white !important;
+}
+
+.alert-danger {
+  background-color: #dc3545 !important; /* Bootstrap danger red */
+  border: 2px solid #a71d2a; /* Darker red border */
+  color: white !important;
+}
+
+</style>
+<% if (success && success.length > 0) { %>
+    <div class="alert alert-success alert-dismissible fade show flash-message" role="alert">
+        <%= success %>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+<% } %>
+
+<% if (error && error.length > 0) { %>
+    <div class="alert alert-danger alert-dismissible fade show flash-message" role="alert">
+        <%= error %>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+<% } %>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    setTimeout(() => {
+      let alerts = document.querySelectorAll(".flash-message");
+      alerts.forEach(alert => {
+        let bsAlert = new bootstrap.Alert(alert);
+        bsAlert.close(); // Auto-dismiss alert
+      });
+    }, 3000); // 2 seconds
+  });
+</script>
