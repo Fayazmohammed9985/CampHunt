@@ -178,7 +178,7 @@ app.post('/register', catchAsyncError(async (req, res, next) => {
         req.login(registeredUser, err => {
             if (err) return next(err);
             req.flash('success', 'Welcome to CampHunt!');
-            res.redirect('/ampgrounds');
+            res.redirect('/Campgrounds');
         });
     } catch (e) {
         req.flash('error', e.message);
