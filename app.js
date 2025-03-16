@@ -38,10 +38,7 @@ const secret=process.env.SECRET || 'thisisverypersonal'
 
 
 
-mongoose.connect(dbUrl,{   //'mongodb://localhost:27017/CampHunt'
-    useNewUrlParser:true,
-    useUnifiedTopology:true
-}).then(()=>{
+mongoose.connect(dbUrl).then(()=>{
     console.log('mongodb connected successfully')
 }).catch((err)=>{
     console.log('Mongodb connection error',err)
