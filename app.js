@@ -205,7 +205,7 @@ app.get('/logout', (req, res, next) => {
             return next(err);
         }
         req.flash('success', 'You have logged out!');
-        res.redirect('/home');
+        res.redirect('/');
     });
 }); 
 app.get('/campgrounds', async (req, res) => {
@@ -221,7 +221,7 @@ app.get('/campgrounds', async (req, res) => {
         campgrounds = await Campground.find({});
     }
 
-    res.render('campgrounds/index', { campgrounds, query });
+    res.render('Campgrounds/index', { campgrounds, query });
 });
 
 // app.get('/campgrounds',catchAsyncError(async(req,res,next)=>{
@@ -229,7 +229,7 @@ app.get('/campgrounds', async (req, res) => {
 //     res.render('campgrounds/index',{campgrounds})
 // }))
 app.get('/campgrounds/new',isLoggedin,(req,res)=>{
-    res.render('campgrounds/new')
+    res.render('Campgrounds/new')
 })
 app.post('/campgrounds', isLoggedin, upload.array('images'), catchAsyncError(async (req, res) => {
     // Fetch geolocation data
@@ -239,14 +239,14 @@ app.post('/campgrounds', isLoggedin, upload.array('images'), catchAsyncError(asy
 
     if (!geoData.features.length) {
         req.flash('error', 'Invalid location, please try again.');
-        return res.redirect('/campgrounds/new');
+        return res.redirect('/Campgrounds/new');
     }
 
     // Ensure geometry object exists
     const geometry = geoData.features[0].geometry;
     if (!geometry || !geometry.type || !geometry.coordinates) {
         req.flash('error', 'Geolocation data is missing or incorrect.');
-        return res.redirect('/campgrounds/new');
+        return res.redirect('/Campgrounds/new');
     }
 
     const campground = new Campground(req.body.campground);
@@ -265,7 +265,7 @@ app.post('/campgrounds', isLoggedin, upload.array('images'), catchAsyncError(asy
     // console.log("Saved Campground:", campground);
 
     req.flash('success', 'Successfully created campground');
-    res.redirect(`/campgrounds/${campground._id}`);
+    res.redirect(`/Campgrounds/${campground._id}`);
 }));
 
 
@@ -292,14 +292,14 @@ app.get('/campgrounds/:id',catchAsyncError(async(req,res)=>{
      if (!campground){
         throw new ExpressError('Campground Not Found', 404);
     }
-    res.render('campgrounds/show',{campground})  
+    res.render('Campgrounds/show',{campground})  
 }))
 app.get('/campgrounds/:id/edit',isLoggedin,catchAsyncError(async(req,res)=>{
     const campground=await Campground.findById(req.params.id)
     if (!campground){
         throw new ExpressError('Campground Not Found', 404);
     }
-    res.render('campgrounds/edit',{campground})   
+    res.render('Campgrounds/edit',{campground})   
 }))
 app.put('/campgrounds/:id', isLoggedin, upload.array('images'), catchAsyncError(async (req, res) => {
     const { id } = req.params;
@@ -311,7 +311,7 @@ app.put('/campgrounds/:id', isLoggedin, upload.array('images'), catchAsyncError(
 
     if (!geoData.features.length) {
         req.flash('error', 'Invalid location, please enter a valid address.');
-        return res.redirect(`/campgrounds/${id}/edit`);
+        return res.redirect(`/Campgrounds/${id}/edit`);
     }
 
     // Extract geometry details
@@ -341,7 +341,7 @@ app.put('/campgrounds/:id', isLoggedin, upload.array('images'), catchAsyncError(
     // Save and redirect
     await campground.save();
     req.flash('success', 'Successfully updated campground!');
-    res.redirect(`/campgrounds/${campground._id}`);
+    res.redirect(`/Campgrounds/${campground._id}`);
 }));
 
 // app.put('/campgrounds/:id',isLoggedin,upload.array('images'),catchAsyncError(async(req,res)=>{
@@ -367,14 +367,14 @@ app.delete('/campgrounds/:id',catchAsyncError(async(req,res)=>{
     }
     await Review.deleteMany({ _id: { $in: campground.reviews } }); 
     await Campground.findByIdAndDelete(id)
-    res.redirect('/campgrounds') 
+    res.redirect('/Campgrounds') 
 }))
 app.get('/campgrounds/:id/reviews', catchAsyncError(async (req, res) => {
     const campground = await Campground.findById(req.params.id);
 
     if (!campground) {
         req.flash('error', 'Campground not found!');
-        return res.redirect('/campgrounds'); // Redirect to main list if not found
+        return res.redirect('/Campgrounds'); // Redirect to main list if not found
     }
 
     res.redirect(`/campgrounds/${campground._id}`);
@@ -384,7 +384,7 @@ app.post('/campgrounds/:id/reviews', isLoggedin, catchAsyncError(async (req, res
     const campground = await Campground.findById(req.params.id);
     if (!campground) {
         req.flash('error', 'Campground not found!');
-        return res.redirect('/campgrounds');
+        return res.redirect('/Campgrounds');
     }
     const review = new Review(req.body.review);
     review.author = req.user._id;  
@@ -393,7 +393,7 @@ app.post('/campgrounds/:id/reviews', isLoggedin, catchAsyncError(async (req, res
     await campground.save();  
 
     req.flash('success', 'Review added successfully!');
-    res.redirect(`/campgrounds/${campground._id}`);
+    res.redirect(`/Campgrounds/${campground._id}`);
 }));
 
 app.delete('/campgrounds/:id/reviews/:rid',catchAsyncError(async(req,res)=>{
@@ -409,7 +409,7 @@ app.delete('/campgrounds/:id/reviews/:rid',catchAsyncError(async(req,res)=>{
     await Campground.findByIdAndUpdate(id,{$pull:{reviews:rid}})
     await Review.findByIdAndDelete(rid)
 
-         res.redirect(`/campgrounds/${id}`)
+         res.redirect(`/Campgrounds/${id}`)
 }))
 app.all('*',(req,res,next)=>{
     next(new ExpressError('Page Not Found',404))
