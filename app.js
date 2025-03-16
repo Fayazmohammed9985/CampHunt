@@ -377,7 +377,7 @@ app.get('/campgrounds/:id/reviews', catchAsyncError(async (req, res) => {
         return res.redirect('/Campgrounds'); // Redirect to main list if not found
     }
 
-    res.redirect(`/campgrounds/${campground._id}`);
+    res.redirect(`/campgrounds`);
 }));
 
 app.post('/campgrounds/:id/reviews', isLoggedin, catchAsyncError(async (req, res) => {
